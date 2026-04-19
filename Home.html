@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To my beloved</title>
+    <link rel="stylesheet" href="css.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <div class="container">
+        <div class="book" id="book">
+
+            <div class="page page1">
+                <div class="front">
+                    <h1>TO MY BELOVED</h1>
+                    <p>A collection of Us</p>
+                </div>
+            </div>
+
+            <div class="page page2">
+                <div class="front">
+                    <h1>A Short Message</h1>
+                    <p>Hello Gem, I know that this words is something I say everyday, but I love you, I adore you, I want you. I am
+                        grateful for everything, especially the little things you do. They may seems small or ordinary to you,
+                        but to me they mean so much. Those actions are enough to get me to smile even if everything seems to fall apart.
+                        I do hope that you enjoy being with me, and I hope that you achieve everything that you deserve, because to me, you deserve everything.
+                        <br><br>I love you.
+                    </p>
+                </div>
+            </div>
+
+            <div class="page page3">
+                <div class="front">
+                    <h1>A Princess Crowned with Gems</h1>
+                    <p>Eyes embedded with magic,<br>
+                        Enough to hold one captive.<br>
+                        Hair as long as her love,<br>
+                        For the peasant who wears it like a glove.<br><br>
+                        Treasured by many, loved by one,<br>
+                        Oh, how sorrowful will it be if you were gone?<br>
+                        I thank the gem from the princess's crown<br>
+                        For the soothing words that healed my frown.<br><br>
+                        No one cares for what a peasant say,<br>
+                        Yet you've heard every story i've preached every day.<br>
+                        Gratitude cannot potray,<br>
+                        How your greatness made me stay.<br>
+                        Insolence is the crown for those who have disrespected,<br>
+                        Someone this humble peasant has protected.
+                        
+
+                    </p>
+                </div>
+            </div>
+
+            <div class="page page4">
+                <div class="front">
+                    <h1>Diko paalam ano gagawin dito HAAHAh kada anniv natin or special occasion uupdate ko</h1>
+                    <p>ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU
+                        ILOVEYOUILOVEYOUILOVEYOUILOVEYOUILOVEYOU</p>
+                </div>
+            </div>
+
+            
+
+        </div>
+
+        <div class="button-row">
+            <button class="btn prev-btn" onclick="prevPage()">← Back</button>
+            <button class="btn next-btn" onclick="nextPage()">Next →</button>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="assetse/song.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        /* Hearts */
+        const container = document.getElementById('heartsContainer');
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 6 + 6) + 's';
+            heart.style.animationDelay = (Math.random() * 4) + 's';
+            const size = Math.random() * 18 + 10;
+            heart.style.width = size + 'px';
+            heart.style.height = size + 'px';
+            heart.style.opacity = Math.random() * 0.5 + 0.2;
+            container.appendChild(heart);
+            setTimeout(() => heart.remove(), 12000);
+        }
+        setInterval(createHeart, 600);
+        for (let i = 0; i < 12; i++) setTimeout(createHeart, i * 200);
+
+        /* Music */
+        const music = document.getElementById('bgMusic');
+        music.volume = 0.2;
+        document.addEventListener('click', () => {
+            music.play().catch(err => console.log('Music error:', err));
+        }, { once: true });
+
+        /* Page flip */
+        let current = 0;
+        let isAnimating = false;
+        const pages = document.querySelectorAll('.page');
+
+        function showPage(index) {
+            pages.forEach((p) => {
+                p.style.opacity = '0';
+                p.style.zIndex = '1';
+            });
+            if (pages[index]) {
+                pages[index].style.opacity = '1';
+                pages[index].style.zIndex = '4';
+            }
+        }
+
+        function updateButtons() {
+            document.querySelector('.prev-btn').style.display = current === 0 ? 'none' : 'inline-block';
+            document.querySelector('.next-btn').style.display = current === pages.length - 1 ? 'none' : 'inline-block';
+        }
+
+        function nextPage() {
+            if (isAnimating || current >= pages.length - 1) return;
+            isAnimating = true;
+            const flipping = pages[current];
+            flipping.style.zIndex = '10';
+            flipping.classList.add('flipped');
+            current++;
+            setTimeout(() => {
+                showPage(current);
+                updateButtons();
+                isAnimating = false;
+            }, 600);
+        }
+
+        function prevPage() {
+            if (isAnimating || current <= 0) return;
+            isAnimating = true;
+            current--;
+            const unflipping = pages[current];
+            unflipping.style.zIndex = '10';
+            unflipping.style.opacity = '1';
+            showPage(current);
+            setTimeout(() => {
+                unflipping.classList.remove('flipped');
+                updateButtons();
+                setTimeout(() => { isAnimating = false; }, 600);
+            }, 50);
+        }
+
+        showPage(0);
+        updateButtons();
+    </script>
+</body>
+</html>
